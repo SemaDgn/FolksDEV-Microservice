@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
     @AllArgsConstructor
     @Builder
     public class BookDto {
-        private String bookid ;
+        private String id ;
         private String title;
         private Integer bookYear;
         private String author;
