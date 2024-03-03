@@ -25,7 +25,7 @@ public interface BookServiceClient {
     //Burada yazılan fallback methosuyla hata olustugunda baska bır senaryayo gecıyorum.
     @GetMapping("/isbn/{isbn}")
     @CircuitBreaker(name="getBookByIsbnCircuitBreaker", fallbackMethod = "getBookFallBack")
-    public ResponseEntity<BookIdDto> getBookByIsbn(@PathVariable String isbn) ;
+    public ResponseEntity<BookIdDto> getBookByIsbn(@PathVariable(value = "isbn") String isbn) ;
 
     // default olarak yazılmış fallback metorları her zaman fallback metodu parametresi ve exception parametresi alır.
     // fallbackmethos alanında tanımlanan isimle aynı olmalıdır.
@@ -37,9 +37,9 @@ public interface BookServiceClient {
 
     @GetMapping("/book/{id}")
     @CircuitBreaker(name="getBookByIdCircuitBreaker", fallbackMethod = "getBookByIdFallBack")
-    public ResponseEntity<BookDto> getBookById(@PathVariable String id) ;
+    public ResponseEntity<BookDto> getBookById(@PathVariable(value = "bookId") String id) ;
 
-    default  ResponseEntity<BookDto> getBookIdFallBack( String bookId, Exception exception)
+    default  ResponseEntity<BookDto> getBookByIdFallBack( String bookId, Exception exception)
     {
         logger.info("Book not found by id:"+ bookId +", returning default BookDto object");
         return  ResponseEntity.ok( new BookDto("default-book","",0,"", "default-isbn"));

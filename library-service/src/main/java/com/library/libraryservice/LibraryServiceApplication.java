@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableFeignClients
+
 public class LibraryServiceApplication {
 
 	public static void main(String[] args) {

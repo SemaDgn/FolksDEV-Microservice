@@ -9,6 +9,7 @@ import com.library.libraryservice.repository.LibraryRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -24,7 +25,8 @@ public class LibraryService {
 
     public LibraryDto getAllBooksInLibraryById(String id)
     {
-        Library library= libraryRepository.findById(id).orElseThrow(()-> new LibraryNotFoundException("Library could not found by Id :"+id));
+        Library library= libraryRepository.findById(id)
+                .orElseThrow(()-> new LibraryNotFoundException("Library could not found by Id :"+id));
         // bu noktada null patlayıp patlayamayacagını bılemıyorum dıkkat et.
         LibraryDto libraryDto= new LibraryDto(library.getId(),library.getUserBook().stream()
                 .map(book->bookServiceClient.getBookById(book).getBody())
@@ -48,4 +50,10 @@ public class LibraryService {
         libraryRepository.save(library);
     }
 
+    public List<String> getAllLibraries() {
+        return libraryRepository.findAll()
+                .stream()
+                .map(l->l.getId())
+                .collect(Collectors.toList());
+    }
 }
