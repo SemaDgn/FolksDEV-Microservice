@@ -5,11 +5,12 @@ import com.library.libraryservice.dto.LibraryDto;
 import com.library.libraryservice.service.LibraryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
+
 import java.util.List;
 
 @RestController
@@ -24,6 +25,10 @@ public class LibraryController {
         this.libraryService = libraryService;
         this.environment=environment;
     }
+    //properties dosyasından değer okumanın yolu
+    @Value ("${library.service.count}")
+    private Integer count;
+
 
     @GetMapping("{id}")
     public ResponseEntity<LibraryDto> getLibraryById(@PathVariable String id)
@@ -41,6 +46,8 @@ public class LibraryController {
     //ben bu kütüpheneye bir kitap eklemem lazım. bunun için book service ile haberleşmem lazım.
     // bu noktada libray ve book servisin  euraka servera register olması gerekir. euraka üzerinden haberleşmem gerekiyor.
 
+
+
     @PutMapping
      public ResponseEntity<Void> addBookToLibrary(@RequestBody AddBookRequest request)
     {
@@ -55,6 +62,13 @@ public class LibraryController {
 
 
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<String> getCount()
+    {
+        return  ResponseEntity.ok("Library service count: " + count);
+    }
+
 
 
 
